@@ -37,9 +37,14 @@ function initializeTouchDevice() {
   setTimeout(() => {
     removeShowingMenu();
     if (isTouchDevice) {
-      getById('navigation-butt').addEventListener('click', e =>
-        getClassList('navbar-menu-wrapper').toggle('showing'),
-      );
+      const el = getById('navigation-butt');
+      // Do not attach onclick event if already present
+      if (el.getAttribute('data-click') !== 'true') {
+        el.addEventListener('click', () => {
+          el.setAttribute('data-click', 'true');
+          getClassList('navbar-menu-wrapper').toggle('showing');
+        });
+      }
     } else {
       getClassList('navbar-menu-wrapper').add('desktop');
       getById('navigation-butt').addEventListener('focus', e =>
